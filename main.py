@@ -50,7 +50,7 @@ def delete() -> str:
 
 root = Tk()
 root.title("Python Calculator")
-root.geometry(1000,1000)
+
 
 # Main Gui config
 mainframe = ttk.Frame(root, padding=2)  # , padding=(2, 2, 2, 2)
