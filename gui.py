@@ -7,25 +7,26 @@ from tkinter import ttk
 
 EQUATION = ""
 
+# ---------------Functionality----------------
 
 def equation(num: str):
     global EQUATION
 
-    if len(EQUATION) < 12:
+    if len(EQUATION) < 20:
         EQUATION += num
 
     screen.set(EQUATION)
     return EQUATION
 
 
-def equals():
+def do_math():
     global EQUATION
 
     if EQUATION.startswith(")"):
         return
     elif EQUATION != "":
         try:
-            evaluate = eval(EQUATION)
+            evaluate = round(eval(EQUATION), 4)
             screen.set(str(evaluate))
             EQUATION = str(evaluate)
         except ZeroDivisionError:
@@ -50,7 +51,9 @@ def delete() -> str:
 
 root = Tk()
 root.title("Python Calculator")
+root.geometry("800x500")
 
+#-----------------------GUI Elements-----------------------
 
 # Main Gui config
 mainframe = ttk.Frame(root, padding=2)  # , padding=(2, 2, 2, 2)
@@ -59,8 +62,8 @@ mainframe.grid(column=0, row=0, sticky="NSEW")
 
 # Calculator screen config
 screen: StringVar = StringVar()
-screen_label = ttk.Label(mainframe, padding=2, text=EQUATION, textvariable=screen, font=("Arial", 70, "bold"))
-screen_label.grid(column=0, row=0, sticky="NSEW", columnspan=4, rowspan=2)
+screen_label = ttk.Label(mainframe, padding=2, text=EQUATION, textvariable=screen, font=("Arial", 50, "bold"))
+screen_label.grid(column=0, row=0, sticky="NSEW", columnspan=5, rowspan=2)
 
 # Power, reset, del buttons
 reset_button: ttk.Button = ttk.Button(mainframe, text="RESET", command=reset)
@@ -126,7 +129,7 @@ left_button.grid(column=3, row=5, sticky="NSEW")
 right_button: ttk.Button = ttk.Button(mainframe, padding=number_padding, text=")", command=lambda: equation(")"))
 right_button.grid(column=4, row=5, sticky="NSEW")
 
-equals_button: ttk.Button = ttk.Button(mainframe, padding=number_padding, text="=", command=equals)
+equals_button: ttk.Button = ttk.Button(mainframe, padding=number_padding, text="=", command=do_math)
 equals_button.grid(column=3, row=6, sticky="NSEW", columnspan=2)
 
 
