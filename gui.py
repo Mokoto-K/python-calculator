@@ -4,27 +4,50 @@ from tkinter import ttk
 # TODO - Fix rounding behaviour
 # TODO - Fix double operator behaviour i.e ++, /*, etc
 
+# Using a global variable for the math sum (perhaps this should be changed)
 EQUATION = ""
 
 # ---------------Functionality----------------
 
-def equation(num: str):
+def equation(val: str) -> str:
+    """
+    Function for storing the current equation
+
+    Each time a new button is clicked, this function is called and updates the global variable
+    that is responsible for holding the users equation before it is solved.
+    :param val:
+    val: str - the next character in the users equation that they add
+    :return:
+    EQUATION: str - the updated version for the global equation value
+    """
     global EQUATION
 
+    # Limiting the size of the equation so that it fits on the screen
     if len(EQUATION) < 20:
-        EQUATION += num
+        EQUATION += val
 
+    # Setting the screens string to the equation
     screen.set(EQUATION)
     return EQUATION
 
 
-def do_math():
+def do_math() -> None:
+    """
+    Main function for solving the users equation
+
+    checks a short list of conditionals to make sure it is a valid math equation before
+    using pythons eval function to solve the string
+    :return:
+    Nothing if the syntax is incorrect (probably bad design)
+    """
     global EQUATION
 
+    # Stop the user from starting an equation with a closing bracket
     if EQUATION.startswith(")"):
         return
     elif EQUATION != "":
         try:
+            # Using pythons eval function to solve the users equation
             evaluate = round(eval(EQUATION), 4)
             screen.set(str(evaluate))
             EQUATION = str(evaluate)
@@ -35,6 +58,11 @@ def do_math():
 
 
 def reset() -> str:
+    """
+    Resets the calculator screen.
+    :return:
+    str - a blank string for the global equation value
+    """
     global EQUATION
     EQUATION = ""
     screen.set(EQUATION)
@@ -42,12 +70,18 @@ def reset() -> str:
 
 
 def delete() -> str:
+    """
+    Deletes the last character entered into the equation
+    :return:
+    str - the global equation value with the last entered character missing
+    """
     global EQUATION
     EQUATION = EQUATION[:-1]
     screen.set(EQUATION)
     return EQUATION
 
 
+# Base parameters for the calc GUI
 root = Tk()
 root.title("Python Calculator")
 root.geometry("800x500")
@@ -138,6 +172,7 @@ right_button.grid(column=4, row=3, sticky="NSEW")
 equals_button: ttk.Button = ttk.Button(buttonframe, padding=number_padding, text="=", command=do_math)
 equals_button.grid(column=3, row=4, sticky="NSEW", columnspan=2)
 
+# resize behaviour for the gui
 
 root.grid_columnconfigure(0, weight= 1)
 mainframe.grid_columnconfigure(0, weight= 1)
